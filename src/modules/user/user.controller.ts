@@ -27,17 +27,51 @@ import { sendResponse } from "../../utils/sendResponse";
 // 	}
 // };
 
-const createUser = catchAsync( async (req: Request, res: Response, next: NextFunction)=>{
-    const payload = req.body;
-    const user = await userService.createUserIntoDb(payload);
-    sendResponse(res, {
-        success: true,
-        statusCode: status.CREATED,
-        message: "user registered successfully",
-        data: {user}
-    })
-})
+const createUser = catchAsync(
+	async (req: Request, res: Response, next: NextFunction) => {
+		const payload = req.body;
+		const user = await userService.createUserIntoDb(payload);
+		sendResponse(res, {
+			success: true,
+			statusCode: status.CREATED,
+			message: "User registered successfully",
+			data: { user },
+		});
+	},
+);
 
-export const userController = { 
+const getMyProfile = catchAsync(
+	async (req: Request, res: Response, next: NextFunction) => {
+		const profile = await userService.getMyProfile(req.user.id);
+		sendResponse(res, {
+			success: true,
+			statusCode: status.OK,
+			message: "User profile fetched successfully.",
+			data: { profile },
+		});
+	},
+);
+
+const updateMyProfile = catchAsync(
+	async (req: Request, res: Response, next: NextFunction) => {
+		const userId = req.user?.id;
+		const payload = req.body;
+
+		const updatedProfile = await userService.updateMyProfileInDb(
+			userId,
+			payload,
+		);
+		sendResponse(res, {
+			success: true,
+			statusCode: status.OK,
+			message: "User profile updated successfully.",
+			data: { updatedProfile },
+		});
+	},
+);
+
+export const userController = {
 	createUser,
+	getMyProfile,
+	updateMyProfile,
 };

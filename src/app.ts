@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.get("/", (req: Request, res: Response) => {
 	res.send("hello world!");
 });
-app.use("/api/user",userRoute);
+app.use("/api/users",userRoute);
 app.use("/api/auth",authRouter);
 
 export default app;
