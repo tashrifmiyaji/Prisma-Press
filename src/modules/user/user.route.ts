@@ -9,4 +9,4 @@ router.post("/register", userController.createUser);
 router.get("/me", auth(Role.ADMIN, Role.USER), userController.getMyProfile);
 router.put("/my-profile", auth(Role.USER, Role.ADMIN), userController.updateMyProfile);
 
-export const userRoute = router;
+export const userRoutes = router;
