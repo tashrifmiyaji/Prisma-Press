@@ -18,7 +18,7 @@ const loginUser = async (payload: ILoginUser) => {
 		throw new Error("invalid credential");
 	}
 
-	if ((user.activeStatus = "BLOCKED")) {
+	if ((user.activeStatus === "BLOCKED")) {
 		throw new Error(
 			"Your account has been blocked! please contact with support.",
 		);
