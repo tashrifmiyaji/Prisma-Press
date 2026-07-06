@@ -3,8 +3,6 @@ import { Role } from "../../../generated/prisma/enums";
 import { auth } from "../../middleware/auth";
 import { commentController } from "./comment.controller";
 
-
-
 const router = Router();
 
 router.post( 
@@ -19,8 +17,8 @@ router.get(
 );
 
 router.get(
-    "/:commentId",
-    commentController.getCommentByCommentId
+    "/:postId",
+    commentController.getCommentByPostId
 );
 
 router.patch(

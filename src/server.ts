@@ -15,7 +15,7 @@ const main = async () => {
 	} catch (error) {
 		console.error("error starting server", error);
 		await prisma.$disconnect();
-		process.exit(1);
+		process.exit(1); 
 	}
 };
 main();
