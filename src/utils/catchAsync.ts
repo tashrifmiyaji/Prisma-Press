@@ -1,5 +1,4 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import status from "http-status";
 
 export const catchAsync = (fn: RequestHandler) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
@@ -7,13 +6,7 @@ export const catchAsync = (fn: RequestHandler) => {
 			await fn(req, res, next);
 		} catch (error) {
 			console.error(error);
-
-			res.status(status.INTERNAL_SERVER_ERROR).json({
-				success: false,
-				statusCode: status.INTERNAL_SERVER_ERROR,
-				message: "user register failed!",
-				error: (error as Error).message,
-			});
+			next(error);
 		}
 	};
 };
