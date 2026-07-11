@@ -8,6 +8,7 @@ import { postRoutes } from "./modules/post/post.route";
 import { commentRoutes } from "./modules/comment/comment.route";
 import { notFound } from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
+import { subscriptionRoutes } from "./modules/subscription/subscription.route";
 
 const app: Application = express();
 
@@ -17,6 +18,13 @@ app.use(
 		credentials: true,
 	}),
 );
+
+// Stripe Webhook must be registered BEFORE express.json().
+// Stripe verifies the webhook signature using the raw request body.
+// If express.json() runs first, it parses the body into a JavaScript object,
+// changing the original payload and causing signature verification to fail.
+app.use("/api/subscription/webhook", express.raw({ type: "application/json" }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -29,8 +37,9 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/subscription", subscriptionRoutes);
 
-app.use(notFound)
-app.use(globalErrorHandler)
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;
